@@ -1,0 +1,76 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button color="secondary"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Tinacos</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="getMEdidores()">
+        <ion-icon name="refresh" color="secondary" size="large"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid class="ion-text-center" style="align-content: center;">
+    <ion-col class="ion-no-padding">
+      <ion-row>
+        <ion-col *ngFor="let medidor of medidores" class="ion-no-padding" size="12" size-md="6" size-lg="4">
+          <ion-card class="ion-text-center">
+            <ion-card-header [routerLink]="['/tinacos/tinaco']">
+
+              <ion-card-title color="secondary">
+                {{medidor.name}}
+              </ion-card-title>
+              <ion-card-subtitle color="medium">
+                <ion-icon name="wifi-sharp" color="success"></ion-icon>
+                <small>
+                  {{medidor.ip}}
+                </small>
+              </ion-card-subtitle>
+              <ion-card-subtitle>
+                <ion-icon name="rainy-sharp" color="primary" *ngIf="medidor.up" size="large"></ion-icon>
+              </ion-card-subtitle>
+              <ion-card-subtitle>
+                <!-- <ion-row> -->
+                  <!-- <ion-col *ngFor="let nivel of medidor.level"> -->
+                    <ion-icon [name]="medidor.up?'water-sharp':'ellipse-sharp'"
+                    [color]="nivel?medidor.up?'secondary':'success':'warning'"
+                    *ngFor="let nivel of medidor.level"></ion-icon>
+                  <!-- </ion-col> -->
+                <!-- </ion-row> -->
+              </ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content *ngIf="medidor.bomba">
+              <ion-card-subtitle>
+                <ion-button color="translucent" shape="round" [color]="medidor.bomba.status?'success':'danger'" (click)="bombaBtn(false)">
+                  <ion-icon name="power" size="large"></ion-icon>
+                </ion-button>
+                <!-- <ion-button color="translucent" shape="round" color="success" (click)="bombaBtn(true)">
+                  <ion-icon name="power" size="large"></ion-icon>
+                </ion-button> -->
+              </ion-card-subtitle>
+              <br>
+              <ion-card-title [color]="medidor.bomba.status?'success':'secondary'" [routerLink]="['/tinacos/tinaco']">
+                {{medidor.bomba.name}}
+              </ion-card-title>
+              <ion-card-subtitle color="medium" [routerLink]="['/tinacos/tinaco']">
+                <ion-icon name="wifi-sharp" color="success"></ion-icon>
+                <small>
+                  {{medidor.bomba.ip}}
+                </small>
+              </ion-card-subtitle>
+              <ion-card-subtitle *ngIf="medidor.bomba.auto" [routerLink]="['/tinacos/tinaco']">
+                <!-- <ion-icon name="radio-button-on" color="success" size="medium"></ion-icon> -->
+                <ion-icon name="checkmark-done-circle-outline" color="success" size="medium"></ion-icon>
+                <small>Auto-off </small>
+              </ion-card-subtitle>
+              <br>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-col>
+  </ion-grid>
+</ion-content>

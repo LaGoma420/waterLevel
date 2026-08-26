@@ -1,0 +1,24 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="['/tinacos']"></ion-back-button>
+    </ion-buttons>
+    <ion-title>tinaco [ Edit .... ]</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="tinaco-container">
+    <div class="tinaco-tapa"></div>
+    <div class="tinaco-cuerpo">
+      <div class="nivel nivel-6" [class.activo]="nivelActual >= 6"><span>6</span></div>
+      <div class="nivel nivel-5" [class.activo]="nivelActual >= 5"><span>5</span></div>
+      <div class="nivel nivel-4" [class.activo]="nivelActual >= 4"><span>4</span></div>
+      <div class="nivel nivel-3" [class.activo]="nivelActual >= 3"><span>3</span></div>
+      <div class="nivel nivel-2" [class.activo]="nivelActual >= 2"><span>2</span></div>
+      <div class="nivel nivel-1" [class.activo]="nivelActual >= 1"><span>1</span></div>
+    </div>
+  </div>
+  <p class="ion-text-center">Nivel actual: {{ nivelActual }} / 6</p>
+</ion-content>
+

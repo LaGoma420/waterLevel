@@ -27,13 +27,13 @@ export class TinacosPage implements OnInit {
   }
 
 
-  getMEdidores() {
+  async getMEdidores() {
     // this.medidores = tinacoService.medidores
     // 1. Llamamos al método del servicio
-    this.tinacoService.obtenerMedidores().subscribe({
-      next: (datosVivos) => {
+    await this.tinacoService.obtenerMedidores().subscribe({
+      next: async (datosVivos) => {
         // 2. Le asignamos los datos de MongoDB a la variable de la pantalla
-        this.medidores = datosVivos;
+        this.medidores = await datosVivos;
         console.log('Tinacos cargados con éxito:', this.medidores);
       },
       error: (err) => {
@@ -59,51 +59,51 @@ export class TinacosPage implements OnInit {
   //   this.loadBtnPowe = false;
   // }
 
-  // bombaBtn(statusBtn: boolean) {
-  //   console.log(statusBtn);
-  //   this.loadBtnPowe = true;
-  //   let btn = statusBtn ? "off" : "on"; // Si el botón está encendido, envía "off" para apagar, y viceversa
-
-  //   this.http.get('http://192.168.1.200:80/api/bomba?state=' + btn, { responseType: 'text' })
-  //     .subscribe(
-  //       res => {
-  //         console.log('Respuesta del servidor:', res);
-  //         this.ionViewWillEnter(); // Actualiza estado después del cambio
-  //         this.loadBtnPowe = false;
-  //       },
-  //       error => {
-  //         console.error('Error al comunicar con el servidor:', error);
-  //         this.loadBtnPowe = false;
-  //       }
-  //     );
-  // }
-
-
-  // Función para controlar la bomba usando Sinric Pro
   bombaBtn(statusBtn: boolean) {
-    console.log('Estado actual del botón:', statusBtn);
+    console.log(statusBtn);
     this.loadBtnPowe = true;
-    const nuevoEstado = !statusBtn; // Si está encendido, apagar; si está apagado, encender
+    let btn = statusBtn ? "off" : "on"; // Si el botón está encendido, envía "off" para apagar, y viceversa
 
-    const url = `${this.apiUrl}/${this.deviceId}/power`;
-    const body = { value: nuevoEstado };
-
-    this.http.post(url, body, {
-      headers: {
-        'Authorization': this.apiKey
-      }
-    }).subscribe({
-      next: (res) => {
-        console.log('Respuesta de Sinric:', res);
-        this.ionViewWillEnter(); // Actualizar estado tras cambio
-        this.loadBtnPowe = false;
-      },
-      error: (err) => {
-        console.error('Error controlando Sinric:', err);
-        this.loadBtnPowe = false;
-      }
-    });
+    this.http.get('https://nda-smbv.onrender.com/api/v1/medidor/bomba/' + btn, { responseType: 'text' })
+      .subscribe(
+        res => {
+          console.log('Respuesta del servidor:', res);
+          this.ionViewWillEnter(); // Actualiza estado después del cambio
+          this.loadBtnPowe = false;
+        },
+        error => {
+          console.error('Error al comunicar con el servidor:', error);
+          this.loadBtnPowe = false;
+        }
+      );
   }
+
+
+  // // Función para controlar la bomba usando Sinric Pro
+  // bombaBtn(statusBtn: boolean) {
+  //   console.log('Estado actual del botón:', statusBtn);
+  //   this.loadBtnPowe = true;
+  //   const nuevoEstado = !statusBtn; // Si está encendido, apagar; si está apagado, encender
+
+  //   const url = `${this.apiUrl}/${this.deviceId}/power`;
+  //   const body = { value: nuevoEstado };
+
+  //   this.http.post(url, body, {
+  //     headers: {
+  //       'Authorization': this.apiKey
+  //     }
+  //   }).subscribe({
+  //     next: (res) => {
+  //       console.log('Respuesta de Sinric:', res);
+  //       this.ionViewWillEnter(); // Actualizar estado tras cambio
+  //       this.loadBtnPowe = false;
+  //     },
+  //     error: (err) => {
+  //       console.error('Error controlando Sinric:', err);
+  //       this.loadBtnPowe = false;
+  //     }
+  //   });
+  // }
 
 
 }

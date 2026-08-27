@@ -18,7 +18,8 @@
       <ion-row>
         <ion-col *ngFor="let medidor of medidores" class="ion-no-padding" size="12" size-md="6" size-lg="4">
           <ion-card class="ion-text-center">
-            <ion-card-header [routerLink]="['/tinacos/tinaco']">
+            <!-- <ion-card-header [routerLink]="['/tinacos/tinaco']"> -->
+            <ion-card-header>
 
               <ion-card-title color="secondary">
                 {{medidor.name}}
@@ -34,25 +35,19 @@
               </ion-card-subtitle>
               <ion-card-subtitle>
                 <!-- <ion-row> -->
-                  <!-- <ion-col *ngFor="let nivel of medidor.level"> -->
-                    <ion-icon [name]="medidor.up?'water-sharp':'ellipse-sharp'"
-                    [color]="nivel?medidor.up?'secondary':'success':'warning'"
-                    *ngFor="let nivel of medidor.level"></ion-icon>
-                  <!-- </ion-col> -->
+                <!-- <ion-col *ngFor="let nivel of medidor.level"> -->
+                <ion-icon [name]="medidor.up?'water-sharp':'ellipse-sharp'"
+                  [color]="nivel?medidor.up?'secondary':'success':'warning'"
+                  *ngFor="let nivel of medidor.level"></ion-icon>
+                <!-- </ion-col> -->
                 <!-- </ion-row> -->
               </ion-card-subtitle>
             </ion-card-header>
+            
             <ion-card-content *ngIf="medidor.bomba">
-              <ion-card-subtitle>
-                <ion-button color="translucent" shape="round" [color]="medidor.bomba.status?'success':'danger'" (click)="bombaBtn(false)">
-                  <ion-icon name="power" size="large"></ion-icon>
-                </ion-button>
-                <!-- <ion-button color="translucent" shape="round" color="success" (click)="bombaBtn(true)">
-                  <ion-icon name="power" size="large"></ion-icon>
-                </ion-button> -->
-              </ion-card-subtitle>
+              <hr style="border: 0; border-top: 1px solid #777; margin: 5px 0;">
               <br>
-              <ion-card-title [color]="medidor.bomba.status?'success':'secondary'" [routerLink]="['/tinacos/tinaco']">
+              <ion-card-title [color]="medidor.bomba.status?'primary':'secondary'" [routerLink]="['/tinacos/tinaco']">
                 {{medidor.bomba.name}}
               </ion-card-title>
               <ion-card-subtitle color="medium" [routerLink]="['/tinacos/tinaco']">
@@ -61,10 +56,32 @@
                   {{medidor.bomba.ip}}
                 </small>
               </ion-card-subtitle>
+              <ion-card-subtitle>
+                <ion-icon name="nuclear" size="large" [color]="medidor.bomba.status?'success':'danger'"></ion-icon>
+              </ion-card-subtitle>
+              <ion-card-title *ngIf="!medidor.bomba.status" color="danger">
+                <small>
+                  Apagado
+                </small>
+              </ion-card-title>
+              <ion-card-title *ngIf="medidor.bomba.status" color="success">
+                <small>
+                  Encendido
+                </small>
+              </ion-card-title>
               <ion-card-subtitle *ngIf="medidor.bomba.auto" [routerLink]="['/tinacos/tinaco']">
                 <!-- <ion-icon name="radio-button-on" color="success" size="medium"></ion-icon> -->
                 <ion-icon name="checkmark-done-circle-outline" color="success" size="medium"></ion-icon>
                 <small>Auto-off </small>
+              </ion-card-subtitle>
+              <br>
+              <ion-card-subtitle>
+                <ion-button shape="round" [color]="medidor.bomba.status?'success':'success'" (click)="bombaBtn(false)">
+                  <ion-icon name="power" size="large" color="light"></ion-icon>
+                </ion-button>
+                <ion-button shape="round" [color]="medidor.bomba.status?'danger':'danger'" (click)="bombaBtn(true)">
+                  <ion-icon name="power" size="large" color="light"></ion-icon>
+                </ion-button>
               </ion-card-subtitle>
               <br>
             </ion-card-content>
